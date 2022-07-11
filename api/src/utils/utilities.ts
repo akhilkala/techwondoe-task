@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { Route } from "./types";
+import jwt from "jsonwebtoken";
 
 export const route =
   (fn: Route) => (req: Request, res: Response, next: NextFunction) =>
@@ -53,3 +54,20 @@ export const errorHandler = (
 export const notFoundHandler = () => {
   throw new HTTPError(HttpStatusCode.NOT_FOUND, "Route not found");
 };
+
+export const generateJWT = (payload: any) => {
+  if (!process.env.JWT_SECRET) throw new Error("Environment Invalid");
+  return jwt.sign(payload, process.env.JWT_SECRET);
+};
+// Function to generate JWT token
+
+export const verifyJWT = (token: string) => {
+  if (!process.env.JWT_SECRET) throw new Error("Environment Invalid");
+  try {
+    return jwt.verify(token, process.env.JWT_SECRET);
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
+// Function to verify JWT token
