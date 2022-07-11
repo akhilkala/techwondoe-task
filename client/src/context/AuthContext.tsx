@@ -29,7 +29,7 @@ interface Props {
 const AuthContext = createContext<Nullable<Value>>(null);
 
 export const useAuth = () => {
-  // return useContext(AuthContext);
+  return useContext(AuthContext);
 };
 
 export default function AuthProvider({ children }: Props): ReactElement {
@@ -96,5 +96,7 @@ export default function AuthProvider({ children }: Props): ReactElement {
     loading,
   };
 
-  return <AuthContext.Provider></AuthContext.Provider>;
+  if (loading) return <h1>Loading</h1>;
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

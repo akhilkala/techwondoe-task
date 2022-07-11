@@ -1,8 +1,9 @@
-import express, { NextFunction, Request, Response } from "express";
+import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
 import router from "./router";
 import { errorHandler, notFoundHandler } from "./utils/utilities";
+import { User } from "@prisma/client";
 
 const app = express();
 dotenv.config();
@@ -16,7 +17,7 @@ app.use(errorHandler);
 declare global {
   namespace Express {
     interface Request {
-      user?: any;
+      user?: User;
     }
   }
 }
@@ -24,3 +25,5 @@ declare global {
 app.listen(process.env.PORT, () =>
   console.log(`Server running on port ${process.env.PORT}...`)
 );
+
+//express-validator

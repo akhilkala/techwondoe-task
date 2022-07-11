@@ -1,7 +1,5 @@
-import Protected from "../components/Protected";
-
 function Home() {
-  return <div></div>;
+  return <div>vfd</div>;
 }
 
-export default Protected(Home);
+export default Home;
