@@ -1,7 +1,46 @@
 .show {
     background: #FFFFFF;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.08);
     border-radius: 5px;
     width: 30%;
     height: 10rem;
+    padding: 1rem;
+    position: relative;
+    h2 {
+        font-weight: 400;
+        font-size: 1.2rem;
+    }
+    .actions {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        display: flex;
+        gap: 1rem;
+        .delete {
+            cursor: pointer;
+            transition: .12s all;
+            &:hover {
+                color: #FD5E53;
+            }
+        }
+        .edit {
+            cursor: pointer;
+            transition: .12s all;
+            &:hover {
+                color: #A2F4AF;
+            }
+        }
+    }
+}
+
+.show-toast-delete {
+    display: flex;
+    align-items: center;
+    button {
+        margin-left: 1rem;
+        background-color: #FD5E53;
+        color: #fff;
+        padding: .25rem;
+        border-radius: 5px;
+    }
 }

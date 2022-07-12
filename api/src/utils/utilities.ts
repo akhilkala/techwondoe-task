@@ -56,15 +56,15 @@ export const notFoundHandler = () => {
 };
 
 export const generateJWT = (payload: any) => {
-  if (!process.env.JWT_SECRET) throw new Error("Environment Invalid");
-  return jwt.sign(payload, process.env.JWT_SECRET);
+  if (!process.env.ACCESS_TOKEN_SECRET) throw new Error("Environment Invalid");
+  return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET);
 };
 // Function to generate JWT token
 
 export const verifyJWT = (token: string) => {
-  if (!process.env.JWT_SECRET) throw new Error("Environment Invalid");
+  if (!process.env.ACCESS_TOKEN_SECRET) throw new Error("Environment Invalid");
   try {
-    return jwt.verify(token, process.env.JWT_SECRET);
+    return jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
   } catch (err) {
     console.log(err);
     throw err;

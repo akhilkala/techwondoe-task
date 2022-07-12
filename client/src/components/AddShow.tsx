@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "react-modal";
 import ReactStars from "react-stars";
 import useInputState from "../hooks/useInputState";
@@ -9,15 +9,29 @@ import { IShow } from "../utils/types";
 interface Props {
   closeHandler: () => void;
   open: boolean;
-  edit?: boolean;
   show?: IShow;
+  handleAddItem: (show: IShow) => void;
 }
 
-export default function AddShow({ closeHandler, open, edit, show }: Props) {
-  const title = useInputState(edit ? show?.title : "");
-  const app = useInputState(edit ? show?.app : "");
-  const review = useInputState(edit ? show?.review : "");
-  const [rating, setRating] = useState(edit ? show?.rating : 0);
+export default function AddShow({
+  closeHandler,
+  open,
+  show,
+  handleAddItem,
+}: Props) {
+  const edit = !!show;
+  const title = useInputState();
+  const app = useInputState();
+  const review = useInputState();
+  const [rating, setRating] = useState(0);
+
+  useEffect(() => {
+    if (!show) return;
+    title.handleSet(show?.title);
+    app.handleSet(show?.app);
+    review.handleSet(show?.review);
+    setRating(show?.rating);
+  }, [show]);
 
   const handleClose = () => {
     setRating(0);
@@ -47,6 +61,7 @@ export default function AddShow({ closeHandler, open, edit, show }: Props) {
           review: review.value,
           rating,
         });
+        handleAddItem(res.show);
       }
 
       handleClose();

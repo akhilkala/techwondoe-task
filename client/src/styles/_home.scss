@@ -36,14 +36,35 @@
         }
     }
     main {
+        margin-top: 3rem;
         flex: 1;
         display: flex;
         flex-direction: column;
+        .search {
+            display: flex;
+            align-items: center;
+            background-color: #fff;
+            box-shadow: 0px 0px 3px #3333;
+            width: max-content;
+            border-radius: 3px;
+            padding: 0 .25rem;
+            transition: .2s all;
+            width: 17rem;
+            margin-bottom: 1rem;
+            &:focus-within {
+                width: 22rem;
+                box-shadow: 0px 0px 3px #A2F4AF;
+            }
+            input {
+                margin: .5rem;
+                font-size: 1.15rem;
+            }
+        }
         .shows {
-            margin-top: 3rem;
             display: flex;
             gap: 1.5rem;
             flex-wrap: wrap;
+            margin-top: 1.25rem;
         }
     }
 }

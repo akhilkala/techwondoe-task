@@ -8,4 +8,6 @@ export interface IShow {
   app: string;
   review: string;
   rating: number;
+  enteredAt: string;
+  userId: string;
 }

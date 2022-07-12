@@ -38,8 +38,15 @@ export class APIService {
   }
 
   async put(url: string, data?: object, params?: object) {
+    const token = localStorage.getItem("token");
     try {
-      const raw = await this.fetcher.put(url, data, { params });
+      const raw = await this.fetcher.put(url, data, {
+        params,
+        headers: {
+          "Content-Type": "application/json",
+          authorization: `Bearer ${token}`,
+        },
+      });
       return raw.data;
     } catch (err) {
       throw err;
@@ -47,10 +54,12 @@ export class APIService {
   }
 
   async deleteCall(url: string, data?: any) {
+    const token = localStorage.getItem("token");
     try {
       const raw = await this.fetcher.delete(url, {
         headers: {
           "Content-Type": "application/json",
+          authorization: `Bearer ${token}`,
         },
         data,
       });
