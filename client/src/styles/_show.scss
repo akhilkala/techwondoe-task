@@ -7,7 +7,7 @@
     padding: 1rem;
     position: relative;
     h2 {
-        font-weight: 400;
+        font-weight: 500;
         font-size: 1.2rem;
     }
     .actions {
@@ -30,6 +30,12 @@
                 color: #A2F4AF;
             }
         }
+    }
+    .stars {
+        pointer-events: none;
+        position: absolute;
+        bottom: 1rem;
+        right: 1rem;
     }
 }
 

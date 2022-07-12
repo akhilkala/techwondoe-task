@@ -11,6 +11,7 @@ interface Props {
   open: boolean;
   show?: IShow;
   handleAddItem: (show: IShow) => void;
+  handleEditItem: (newShow: IShow) => void;
 }
 
 export default function AddShow({
@@ -18,6 +19,7 @@ export default function AddShow({
   open,
   show,
   handleAddItem,
+  handleEditItem,
 }: Props) {
   const edit = !!show;
   const title = useInputState();
@@ -54,6 +56,7 @@ export default function AddShow({
           review: review.value,
           rating,
         });
+        handleEditItem(res.show);
       } else {
         res = await api.post("/shows/add", {
           title: title.value,
@@ -65,7 +68,7 @@ export default function AddShow({
       }
 
       handleClose();
-      toast.success(res.message);
+      toast.success(res.message, { duration: 1700 });
     } catch (err: any) {
       toast.error(err.response.data.message);
     }
@@ -110,10 +113,11 @@ export default function AddShow({
             onChange={(val) => setRating(val)}
             size={30}
             color2={"#f7b32d"}
+            half={false}
           />
         </div>
         <button onClick={handleSubmit} className="btn">
-          Add
+          {edit ? "Update" : "Add"}
         </button>
       </Modal>
     </>

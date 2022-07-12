@@ -11,6 +11,7 @@ function Home() {
   const [addShowOpen, setAddShowOpen] = useState(false);
   const auth = useAuth();
   const [shows, setShows] = useState<IShow[]>([]);
+  const [editShowId, setEditShowId] = useState("");
   const search = useInputState();
 
   useEffect(() => {
@@ -19,12 +20,27 @@ function Home() {
     // .catch((err)=>)
   }, []);
 
+  useEffect(() => {
+    if (!addShowOpen) setEditShowId("");
+  }, [addShowOpen]);
+
   const handleDeleteItem = (id: string) => {
     setShows((prev) => prev.filter((show) => show.id !== id));
   };
 
   const handleAddItem = (show: IShow) => {
     setShows((prev) => [...prev, show]);
+  };
+
+  const handleOpenEdit = (id: string) => {
+    setEditShowId(id);
+    setAddShowOpen(true);
+  };
+
+  const handleEditItem = (newShow: IShow) => {
+    setShows((prev) =>
+      prev.map((show) => (show.id === newShow.id ? newShow : show))
+    );
   };
 
   const getFilteredShows = () => {
@@ -38,8 +54,10 @@ function Home() {
     <>
       <AddShow
         handleAddItem={handleAddItem}
+        handleEditItem={handleEditItem}
         open={addShowOpen}
         closeHandler={() => setAddShowOpen(false)}
+        show={shows.find((show) => show.id === editShowId)}
       />
       <div className="home">
         <header className="top">
@@ -54,18 +72,29 @@ function Home() {
           </aside>
         </header>
         <main>
-          <div className="search">
-            <FiSearch />
-            <input type="text" placeholder="Search" {...search.inputProps} />
-          </div>
-          <div className="shows">
-            {getFilteredShows().map((show) => (
-              <Show
-                show={show}
-                handleDeleteItem={() => handleDeleteItem(show.id)}
-              />
-            ))}
-          </div>
+          {!!shows.length && (
+            <div className="search">
+              <FiSearch />
+              <input type="text" placeholder="Search" {...search.inputProps} />
+            </div>
+          )}
+          {!!shows.length && (
+            <div className="shows">
+              {getFilteredShows().map((show) => (
+                <Show
+                  show={show}
+                  handleDeleteItem={() => handleDeleteItem(show.id)}
+                  handleOpenEdit={() => handleOpenEdit(show.id)}
+                />
+              ))}
+            </div>
+          )}
+          {!shows.length && (
+            <div className="empty">TV shows you add will show up here</div>
+          )}
+          {!getFilteredShows().length && !!shows.length && (
+            <div className="empty">Your search returned no results</div>
+          )}
         </main>
       </div>
     </>
