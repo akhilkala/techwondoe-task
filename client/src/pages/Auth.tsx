@@ -2,6 +2,8 @@ import React from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import useInputState from "../hooks/useInputState";
+import toast, { Toaster } from "react-hot-toast";
+import { validateEmail } from "../utils/utilities";
 
 export default function Auth() {
   const location = useLocation();
@@ -25,17 +27,20 @@ function Login() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!email.value || !password.value)
+      return toast.error("All fields are required");
+
     try {
       await auth?.login(email.value, password.value);
       navigate("/");
     } catch (err: any) {
-      // err.response.data.message
-      console.log(err);
+      toast.error(err.response.data.message);
     }
   };
 
   return (
     <div className="login">
+      <Toaster />
       <form onSubmit={handleSubmit}>
         <h1>Login</h1>
         <input
@@ -69,6 +74,19 @@ function Register() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (
+      !name.value ||
+      !email.value ||
+      !password.value ||
+      !confirmPassword.value
+    )
+      return toast.error("All fields are required");
+
+    if (!validateEmail(email.value)) return toast.error("Invalid email id");
+
+    if (password.value !== confirmPassword.value)
+      return toast.error("Passwords do not match");
+
     try {
       await auth?.login(email.value, password.value);
       navigate("/");
@@ -80,6 +98,7 @@ function Register() {
 
   return (
     <div className="register">
+      <Toaster />
       <form onSubmit={handleSubmit}>
         <h1>Register</h1>
         <input

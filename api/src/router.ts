@@ -15,7 +15,7 @@ router.post("/auth/login", login);
 
 router.get("/shows/all", protect, getUserShows);
 router.post("/shows/add", protect, addShow);
-router.put("/shows/edit", protect, editShow);
+router.put("/shows/edit/:id", protect, editShow);
 router.delete("/shows/delete", protect, deleteShow);
 
 export default router;

@@ -4,6 +4,9 @@ import App from "./App";
 import { BrowserRouter } from "react-router-dom";
 import "./styles/root.scss";
 import AuthProvider from "./context/AuthContext";
+import Modal from "react-modal";
+
+Modal.setAppElement("#root");
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement

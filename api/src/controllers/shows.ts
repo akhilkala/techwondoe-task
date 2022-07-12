@@ -6,6 +6,14 @@ export const addShow = route(async (req, res) => {
   if (!title || !app || !rating || !review)
     throw new HTTPError(HttpStatusCode.BAD_REQUEST, "Fields missing");
 
+  const exisitingShow = await prisma.show.findFirst({ where: { title } });
+
+  if (exisitingShow)
+    throw new HTTPError(
+      HttpStatusCode.CONFLICT,
+      "Show with name already exists"
+    );
+
   const show = await prisma.show.create({
     data: { title, app, rating, review, userId: req.user?.id as string },
   });
@@ -26,16 +34,17 @@ export const getUserShows = route(async (req, res) => {
 });
 
 export const editShow = route(async (req, res) => {
-  const { showId, title, app, rating, review } = req.body;
-  if (!showId || !title || !app || !rating || !review)
+  const { title, app, rating, review } = req.body;
+  const { id } = req.params;
+  if (!title || !app || !rating || !review)
     throw new HTTPError(HttpStatusCode.BAD_REQUEST, "Fields missing");
 
-  const check = await prisma.show.findUnique({ where: { id: showId } });
+  const check = await prisma.show.findUnique({ where: { id } });
   if (check?.userId !== req.user?.id)
     throw new HTTPError(HttpStatusCode.FORBIDDEN, "User cannot edit this show");
 
   const show = await prisma.show.update({
-    where: { id: showId },
+    where: { id },
     data: { title, app, rating, review, userId: req.user?.id as string },
   });
 

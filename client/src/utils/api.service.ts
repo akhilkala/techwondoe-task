@@ -8,7 +8,8 @@ export class APIService {
     });
   }
 
-  async get(url: string, token?: string) {
+  async get(url: string) {
+    const token = localStorage.getItem("token");
     try {
       const raw = await this.fetcher.get(url, {
         headers: { authorization: `Bearer ${token}` },
@@ -20,7 +21,8 @@ export class APIService {
     }
   }
 
-  async post(url: string, data: any, params?: object, token?: string) {
+  async post(url: string, data: any, params?: object) {
+    const token = localStorage.getItem("token");
     try {
       const raw = await this.fetcher.post(url, data, {
         params,
