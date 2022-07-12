@@ -37,7 +37,6 @@ function Home() {
   return (
     <>
       <AddShow
-        show={shows[0]}
         handleAddItem={handleAddItem}
         open={addShowOpen}
         closeHandler={() => setAddShowOpen(false)}

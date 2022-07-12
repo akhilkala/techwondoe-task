@@ -12,7 +12,11 @@ export default function Auth() {
   return (
     <div className="auth">
       <main>
-        <img src={require("../assets/tv.png")} alt="TV illustration" />
+        <img
+          className="tv"
+          src={require("../assets/tv.png")}
+          alt="TV illustration"
+        />
         <section>{isLoginPage ? <Login /> : <Register />}</section>
       </main>
     </div>

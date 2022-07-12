@@ -17,12 +17,30 @@
     &::after {
         bottom: 0;
     }
+    .tv {
+        width: 30rem;
+        max-width: 90%;
+        @media (max-width:1120px) {
+            width: 25rem;
+        }
+        @media (max-width:970px) {
+            width: 22rem;
+        }
+        @media (max-width:900px) {
+            margin-top: 3rem;
+        }
+    }
     main {
         display: flex;
         align-items: center;
         width: 100%;
         section {
             flex: 1;
+        }
+        @media (max-width:900px) {
+            flex-direction: column;
+            gap: 3rem;
+            margin-bottom: 3rem;
         }
     }
     .login,.register {
