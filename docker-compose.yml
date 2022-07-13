@@ -1,0 +1,32 @@
+version: '3'
+services:
+  api:
+    build:
+      dockerfile: Dockerfile
+      context: ./api
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres_password@database:5432/database
+      - PORT=5000
+      - ACCESS_TOKEN_SECRET=ygjhug65876ufg45765utyfhgtyuu
+    depends_on:
+      - database
+    restart: unless-stopped
+  database:
+    image: 'postgres:latest'
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres_password
+      - POSTGRES_DB=database
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+  client:
+    stdin_open: true
+    build:
+      dockerfile: Dockerfile
+      context: ./client
+    environment:
+      - REACT_APP_API_URI=api
+    ports:
+      - 80:80
+    depends_on:
+      - api
