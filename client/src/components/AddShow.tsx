@@ -28,11 +28,17 @@ export default function AddShow({
   const [rating, setRating] = useState(0);
 
   useEffect(() => {
-    if (!show) return;
-    title.handleSet(show?.title);
-    app.handleSet(show?.app);
-    review.handleSet(show?.review);
-    setRating(show?.rating);
+    if (show) {
+      title.handleSet(show?.title);
+      app.handleSet(show?.app);
+      review.handleSet(show?.review);
+      setRating(show?.rating);
+    } else {
+      title.handleReset();
+      app.handleReset();
+      review.handleReset();
+      setRating(0);
+    }
   }, [show]);
 
   const handleClose = () => {
@@ -46,6 +52,8 @@ export default function AddShow({
   const handleSubmit = async () => {
     if (!title.value || !app.value || !review.value || !rating)
       return toast.error("All fields are required");
+
+    if (title.value.length > 15) return toast.error("Title too long");
 
     try {
       let res;
@@ -84,7 +92,7 @@ export default function AddShow({
         isOpen={open}
       >
         <h1>{edit ? "Edit Show" : "Add Show"}</h1>
-        <section>
+        <section className="top">
           <input
             {...title.inputProps}
             type="text"
@@ -98,7 +106,7 @@ export default function AddShow({
             className="input"
           />
         </section>
-        <section>
+        <section className="bottom">
           <textarea
             {...review.inputProps}
             placeholder="Review"

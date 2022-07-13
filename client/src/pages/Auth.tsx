@@ -92,11 +92,11 @@ function Register() {
       return toast.error("Passwords do not match");
 
     try {
-      await auth?.login(email.value, password.value);
+      const res = await auth?.register(name.value, email.value, password.value);
+      toast.success(res.message);
       navigate("/");
     } catch (err: any) {
-      // err.response.data.message
-      console.log(err);
+      toast.error(err.response.data.message);
     }
   };
 

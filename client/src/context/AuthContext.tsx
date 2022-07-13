@@ -11,14 +11,9 @@ import jwt from "jwt-decode";
 
 type Value = {
   user: Nullable<IUser>;
-  login: (email: string, password: string) => Promise<void>;
+  login: (email: string, password: string) => Promise<any>;
   logout: () => Promise<void>;
-  register: (
-    name: string,
-    username: string,
-    email: string,
-    password: string
-  ) => Promise<void>;
+  register: (name: string, email: string, password: string) => Promise<any>;
   loading: Boolean;
 };
 
@@ -61,19 +56,14 @@ export default function AuthProvider({ children }: Props): ReactElement {
     }
   };
 
-  const register = async (
-    name: string,
-    username: string,
-    email: string,
-    password: string
-  ) => {
+  const register = async (name: string, email: string, password: string) => {
     try {
-      await api.post("/auth/register", {
+      const res = await api.post("/auth/register", {
         name,
-        username,
         email: email.trim().toLowerCase(),
         password,
       });
+      return res;
     } catch (err) {
       throw err;
     }

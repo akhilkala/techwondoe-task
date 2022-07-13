@@ -4,8 +4,14 @@
     padding: 4rem;
     display: flex;
     flex-direction: column;
+    @media (max-width: 950px) {
+        padding: 4rem 2rem;
+    }
     @media (max-width:380px) {
         padding: 3rem;
+    }
+    @media (max-width: 480px) {
+        padding: 4rem .5rem;
     }
     &::after, &::before {
         content: '';
@@ -58,9 +64,16 @@
             transition: .2s all;
             width: 17rem;
             margin-bottom: 1rem;
+            @media (max-width: 740px) {
+                margin-left: 1rem;
+            }
             &:focus-within {
                 width: 22rem;
                 box-shadow: 0px 0px 3px #A2F4AF;
+                @media (max-width: 740px) {
+                    width: 17rem;
+                    box-shadow: 0px 0px 3px #3333;
+                }
             }
             input {
                 margin: .5rem;
@@ -68,10 +81,15 @@
             }
         }
         .shows {
-            display: flex;
-            gap: 1.5rem;
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-columns: repeat(3, 33%);
             margin-top: 1.25rem;
+            @media (max-width: 1250px) {
+                grid-template-columns: repeat(2, 50%)
+            }
+            @media (max-width: 740px) {
+                grid-template-columns: repeat(1, 100%)
+            }
         }
     }
     .empty {
@@ -96,9 +114,17 @@
     outline: none;
     box-shadow: 2px 4px 65px -50px rgba(0,0,0,1);
 
-    section {
+    .top {
         display: flex;
         justify-content: space-between;
+
+        @media (max-width: 740px) {
+           flex-direction: column;
+        }
+    }
+
+    .bottom {
+        display: flex;
     }
 
     h1 {
@@ -119,6 +145,15 @@
             box-shadow: 0px 0px 3px #A2F4AF;
         }
         margin-right: 2rem;
+        @media (max-width: 740px) {
+            margin-right: 0;
+         }
+         @media (max-width: 470px) {
+            width: 17rem;
+         }
+         @media (max-width: 400px) {
+            width: 13rem;
+         }
     }
 
     textarea {

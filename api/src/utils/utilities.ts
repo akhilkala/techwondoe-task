@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { Route } from "./types";
 import jwt from "jsonwebtoken";
 
+// Route wrapper to catch errors and intellisence
 export const route =
   (fn: Route) => (req: Request, res: Response, next: NextFunction) =>
     Promise.resolve(fn(req, res, next)).catch(next);
@@ -27,6 +28,7 @@ export class HTTPError extends Error {
   }
 }
 
+// Function to catch and handle errors in routes
 export const errorHandler = (
   err: HTTPError,
   req: Request,
@@ -51,16 +53,18 @@ export const errorHandler = (
   });
 };
 
+// Function to handle undefined routes
 export const notFoundHandler = () => {
   throw new HTTPError(HttpStatusCode.NOT_FOUND, "Route not found");
 };
 
-export const generateJWT = (payload: any) => {
-  if (!process.env.ACCESS_TOKEN_SECRET) throw new Error("Environment Invalid");
-  return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET);
-};
 // Function to generate JWT token
+export const generateJWT = (payload: any, expiresIn = "7d") => {
+  if (!process.env.ACCESS_TOKEN_SECRET) throw new Error("Environment Invalid");
+  return jwt.sign(payload, process.env.ACCESS_TOKEN_SECRET, { expiresIn });
+};
 
+// Function to verify JWT token
 export const verifyJWT = (token: string) => {
   if (!process.env.ACCESS_TOKEN_SECRET) throw new Error("Environment Invalid");
   try {
@@ -70,4 +74,3 @@ export const verifyJWT = (token: string) => {
     throw err;
   }
 };
-// Function to verify JWT token
