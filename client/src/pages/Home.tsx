@@ -6,6 +6,8 @@ import api from "../utils/api.service";
 import { IShow } from "../utils/types";
 import { FiSearch } from "react-icons/fi";
 import useInputState from "../hooks/useInputState";
+import toast, { Toaster } from "react-hot-toast";
+import Loading from "../components/Loading";
 
 function Home() {
   const [addShowOpen, setAddShowOpen] = useState(false);
@@ -13,11 +15,14 @@ function Home() {
   const [shows, setShows] = useState<IShow[]>([]);
   const [editShowId, setEditShowId] = useState("");
   const search = useInputState();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    api.get("/shows/all").then((res) => setShows(res.shows));
-    console.log(shows);
-    // .catch((err)=>)
+    api
+      .get("/shows/all")
+      .then((res) => setShows(res.shows))
+      .catch((err: any) => toast.error(err.response.data.message))
+      .finally(() => setLoading(false));
   }, []);
 
   useEffect(() => {
@@ -52,6 +57,7 @@ function Home() {
 
   return (
     <>
+      <Toaster />
       <AddShow
         handleAddItem={handleAddItem}
         handleEditItem={handleEditItem}
@@ -89,11 +95,16 @@ function Home() {
               ))}
             </div>
           )}
-          {!shows.length && (
+          {!shows.length && !loading && (
             <div className="empty">TV shows you add will show up here</div>
           )}
           {!getFilteredShows().length && !!shows.length && (
             <div className="empty">Your search returned no results</div>
+          )}
+          {loading && (
+            <div className="loading">
+              <Loading />
+            </div>
           )}
         </main>
       </div>

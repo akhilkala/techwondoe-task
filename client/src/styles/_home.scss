@@ -98,6 +98,11 @@
         margin-top: 3rem;
         opacity: .8;
     }
+    .loading {
+        margin-top: 3rem;
+        display: flex;
+        justify-content: center;
+    }
 }
 
 .add-show {
@@ -113,6 +118,10 @@
     padding: 2rem;
     outline: none;
     box-shadow: 2px 4px 65px -50px rgba(0,0,0,1);
+
+    .loading {
+        margin: 7rem 4rem 0 4rem;
+    }
 
     .top {
         display: flex;

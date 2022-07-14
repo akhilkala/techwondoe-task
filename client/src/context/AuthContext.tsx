@@ -8,6 +8,7 @@ import {
 import api from "../utils/api.service";
 import { IUser, Nullable } from "../utils/types";
 import jwt from "jwt-decode";
+import Loading from "../components/Loading";
 
 type Value = {
   user: Nullable<IUser>;
@@ -41,7 +42,6 @@ export default function AuthProvider({ children }: Props): ReactElement {
   }, []);
 
   const login = async (email: string, password: string) => {
-    // setLoading(true);
     try {
       const res = await api.post("/auth/login", {
         email: email.toLowerCase().trim(),
@@ -86,7 +86,7 @@ export default function AuthProvider({ children }: Props): ReactElement {
     loading,
   };
 
-  if (loading) return <h1>Loading</h1>;
+  if (loading) return <Loading fullScreen />;
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

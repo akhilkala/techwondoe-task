@@ -1,13 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import useInputState from "../hooks/useInputState";
 import toast, { Toaster } from "react-hot-toast";
 import { validateEmail } from "../utils/utilities";
+import Loading from "../components/Loading";
+
+interface ISectionProps {
+  startLoading: () => void;
+  stopLoading: () => void;
+}
 
 export default function Auth() {
   const location = useLocation();
   const isLoginPage = location.pathname === "/login";
+  const [loading, setLoading] = useState(false);
+
+  const startLoading = () => setLoading(true);
+  const stopLoading = () => setLoading(false);
+
+  if (loading) return <Loading fullScreen />;
 
   return (
     <div className="auth">
@@ -17,13 +29,19 @@ export default function Auth() {
           src={require("../assets/tv.png")}
           alt="TV illustration"
         />
-        <section>{isLoginPage ? <Login /> : <Register />}</section>
+        <section>
+          {isLoginPage ? (
+            <Login startLoading={startLoading} stopLoading={stopLoading} />
+          ) : (
+            <Register startLoading={startLoading} stopLoading={stopLoading} />
+          )}
+        </section>
       </main>
     </div>
   );
 }
 
-function Login() {
+function Login({ startLoading, stopLoading }: ISectionProps) {
   const email = useInputState();
   const password = useInputState();
   const auth = useAuth();
@@ -35,10 +53,13 @@ function Login() {
       return toast.error("All fields are required");
 
     try {
+      startLoading();
       await auth?.login(email.value, password.value);
+      stopLoading();
       navigate("/");
     } catch (err: any) {
       toast.error(err.response.data.message);
+      stopLoading();
     }
   };
 
@@ -68,7 +89,7 @@ function Login() {
   );
 }
 
-function Register() {
+function Register({ startLoading, stopLoading }: ISectionProps) {
   const name = useInputState();
   const email = useInputState();
   const password = useInputState();
@@ -92,11 +113,14 @@ function Register() {
       return toast.error("Passwords do not match");
 
     try {
+      startLoading();
       const res = await auth?.register(name.value, email.value, password.value);
       toast.success(res.message);
+      stopLoading();
       navigate("/");
     } catch (err: any) {
       toast.error(err.response.data.message);
+      stopLoading();
     }
   };
 
