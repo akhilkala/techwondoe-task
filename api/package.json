@@ -9,6 +9,11 @@
     "start": "node ./dist/index.js",
     "prod": "npx prisma migrate reset --force && npm start"
   },
+  "eslintConfig": {
+    "extends": [
+      "standard"
+    ]
+  },
   "keywords": [],
   "dependencies": {
     "@prisma/client": "^4.0.0",
