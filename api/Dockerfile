@@ -6,6 +6,7 @@ COPY . .
 RUN npm run build
 
 FROM node:alpine
+RUN apk add --no-cache bash
 WORKDIR '/app'
 ARG DATABASE_URL
 ENV DATABASE_URL $DATABASE_URL
