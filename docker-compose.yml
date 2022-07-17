@@ -22,13 +22,15 @@ services:
     depends_on:
         - postgres
     command: bash -c 'while !</dev/tcp/postgres/5432; do sleep 1; done; npm run prod'
+    ports:
+      - 5000:5000
   client:
     stdin_open: true
     build:
       dockerfile: Dockerfile
       context: ./client
     environment:
-      - REACT_APP_API_URI=api:5000
+      - REACT_APP_API_URI=http://139.59.9.38:5000
     ports:
       - 80:80
     depends_on:
