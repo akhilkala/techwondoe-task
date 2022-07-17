@@ -3,7 +3,6 @@ import dotenv from "dotenv";
 import cors from "cors";
 import router from "./router";
 import { errorHandler, notFoundHandler } from "./utils/utilities";
-import { User } from "@prisma/client";
 
 const app = express();
 dotenv.config();
@@ -17,7 +16,7 @@ app.use(errorHandler);
 declare global {
   namespace Express {
     interface Request {
-      user?: User;
+      user?: any;
     }
   }
 }
